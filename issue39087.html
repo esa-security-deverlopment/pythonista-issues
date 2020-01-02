@@ -1,0 +1,676 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>
+Issue 39087: [C API] No efficient C API to get UTF-8 string from unicode object. - Python tracker
+
+</title>
+<link rel="shortcut icon" href="@@file/favicon.ico" />
+<link rel="stylesheet" type="text/css" href="@@file/main.css" />
+<link rel="stylesheet" type="text/css" href="@@file/style.css" />
+<link rel="search" type="application/opensearchdescription+xml" href="@@file/osd.xml" title="Python bug tracker search" />
+<meta http-equiv="Content-Type"
+      content="text/html; charset=utf-8" />
+
+<script nonce="5b3d0d74f7474a66f0a08fc8cf74cf271b68108b9c37bfffc7bf8d70bbc9d36f" type="text/javascript">
+submitted = false;
+function submit_once() {
+    if (submitted) {
+        alert("Your request is being processed.\nPlease be patient.");
+        return false;
+    }
+    submitted = true;
+    return true;
+}
+
+function help_window(helpurl, width, height) {
+    HelpWin = window.open('https://bugs.python.org/' + helpurl, 'RoundupHelpWindow', 'scrollbars=yes,resizable=yes,toolbar=no,height='+height+',width='+width);
+    HelpWin.focus ()
+}
+</script>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.js"></script>
+<script type="text/javascript" src="@@file/issue.item.js"></script>
+<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/smoothness/jquery-ui.css" />
+
+
+</head>
+<body>
+  <!--  Logo  -->
+  <h1 id="logoheader">
+    <a accesskey="1" href="." id="logolink">
+       <img src="@@file/python-logo.gif" alt="homepage" border="0" id="logo" /></a>
+  </h1>
+
+<div id="utility-menu">
+<!-- Search Box -->
+<div id="searchbox">
+    <form name="searchform" method="get" action="issue" id="searchform">
+      <div id="search">
+       <input type="hidden" name="@columns"
+              value="id,activity,title,creator,assignee,status,type" />
+       <input type="hidden" name="@sort" value="-activity" />
+       <input type="hidden" name="@filter" value="status" />
+       <input type="hidden" name="@action" value="searchid" />
+       <input type="hidden" name="ignore" value="file:content" />
+       <input class="input-text" id="search-text"
+              name="@search_text" size="10" />
+       <input type="submit" id="submit" value="search" name="submit" class="input-button" />
+       <input type="radio" name="status"
+              id="status_notresolved" value="-1,1,3" />
+       <label for="status_notresolved">open</label>
+       <input type="radio" name="status" checked="checked"
+              id="status_all" value="-1,1,2,3" />
+       <label for="status_all">all</label>
+      </div>
+     </form>
+</div>
+</div>
+
+
+<div id="left-hand-navigation">
+<!--  Main Menu NEED LEVEL TWO HEADER AND FOOTER -->
+<div id="menu">
+  <ul class="level-one">
+    <li><a href="https://www.python.org/" title="Go to the Python homepage">Python Home</a></li>
+    <li><a href="https://www.python.org/about/" title="About The Python Language">About</a></li>
+    <li><a href="https://www.python.org/blogs/" title="">News</a></li>
+    <li><a href="https://www.python.org/doc/" title="">Documentation</a></li>
+    <li><a href="https://www.python.org/downloads/" title="">Downloads</a></li>
+    <li><a href="https://www.python.org/community/" title="">Community</a></li>
+    <li><a href="https://www.python.org/psf/" title="Python Software Foundation">Foundation</a></li>
+    <li><a href="https://devguide.python.org/" title="Python Developer’s Guide">Developer’s Guide</a></li>
+    <li class="selected"><a href="." class="selected" title="Python Issue Tracker">Issue Tracker</a>
+      <ul class="level-two">
+        <li>
+          <strong>Issues</strong>
+          <ul class="level-three">
+            
+            <li><a href="issue?@template=search&amp;status=1">Search</a></li>
+            <li><a href="issue?@action=random">Random Issue</a></li>
+            <li>
+              <form method="post" action="issue39087">
+                <input type="submit" class="form-small"
+                       value="Show issue:" />
+                <input class="form-small" size="4" type="text" name="@number" />
+                <input type="hidden" name="@type" value="issue" />
+                <input type="hidden" name="@action" value="show" />
+              </form>
+            </li>
+          </ul>
+        </li>
+
+
+        <li>
+          <strong>Summaries</strong>
+          <ul class="level-three">
+            
+
+            
+
+            
+
+            <li>
+              <a href="issue?status=1&amp;@sort=-activity&amp;@columns=id%2Cactivity%2Ctitle%2Ccreator%2Cstatus&amp;@dispname=Issues%20with%20patch&amp;@startwith=0&amp;@group=priority&amp;keywords=2&amp;@action=search&amp;@filter=&amp;@pagesize=50">Issues with patch</a>
+            </li>
+
+            <li>
+              <a href="issue?status=1&amp;@sort=-activity&amp;@columns=id%2Cactivity%2Ctitle%2Ccreator%2Cstatus&amp;@dispname=Easy%20issues&amp;@startwith=0&amp;@group=priority&amp;keywords=6&amp;@action=search&amp;@filter=&amp;@pagesize=50">Easy issues</a>
+            </li>
+
+            <li>
+              <a href="issue?@template=stats">Stats</a>
+            </li>
+
+          </ul>
+        </li>
+
+
+        <li>
+          <strong>User</strong>
+          <form method="post" action="issue39087">
+          <ul class="level-three">
+            <li>
+                Login&nbsp;(OpenID&nbsp;possible)<br />
+                 <a style="display:inline;width:0;margin:0" href="index?@action=oic_login&amp;provider=Google">
+	            <img hspace="0" vspace="0" width="16" height="16" src="https://www.google.com/favicon.ico" alt="Google" title="Google" /></a>
+	         <a style="display:inline;width:0;margin:0"
+             href="issue39087?@action=openid_login&amp;provider=Launchpad">
+                  <img hspace="0" vspace="0" width="16"
+                       height="16"
+                       src="https://launchpad.net/favicon.ico"
+                       alt="Launchpad" title="Launchpad" /></a>
+                <input size="10" name="openid_identifier" style="background:url(@@file/openid-16x16.gif)
+                  center left no-repeat;padding-left:16px" /><br />
+                <input size="10" type="password" name="__login_password" /><br />
+                <input type="hidden" name="@action" value="Login" />
+                <input type="checkbox" name="remember" id="remember" />
+                <label for="remember">Remember me?</label><br />
+                <input class="form-small" type="submit"
+                       value="Login" /><br />
+                <input type="hidden" name="__came_from"
+                       value="https://bugs.python.org/issue39087?">
+                
+                <input type="hidden" name="@sort" value=""/>
+<input type="hidden" name="@group" value=""/>
+<input type="hidden" name="@pagesize" value="50"/>
+<input type="hidden" name="@startwith" value="0"/>
+            </li>
+            <li>
+                <a href="user?@template=register">Register</a>
+            </li>
+            <li><a href="user?@template=forgotten">Lost&nbsp;your&nbsp;login?</a></li>
+          </ul>
+          </form>
+        </li>
+
+        
+
+        
+
+        <li>
+          <strong>Administration</strong>
+          <ul class="level-three">
+            
+            <li>
+                <a href="user?@sort=username">User List</a></li>
+            <li>
+                <a href="user?iscommitter=1&amp;@action=search&amp;@sort=username&amp;@pagesize=300">Committer List</a></li>
+            
+            
+            
+          </ul>
+        </li>
+
+        <li>
+          <strong>Help</strong>
+          <ul class="level-three">
+            <li><a href="http://docs.python.org/devguide/triaging.html">
+                Tracker Documentation</a></li>
+            <li><a href="http://wiki.python.org/moin/TrackerDevelopment">
+                Tracker Development</a></li>
+            <li><a href="https://github.com/python/psf-infra-meta/issues">
+                Report Tracker Problem</a></li>
+          </ul>
+        </li>
+
+      </ul>
+    </li>
+  </ul>
+</div> <!-- menu -->
+</div> <!-- left-hand-navigation -->
+
+<div id="content-body">
+<div id="body-main">
+<div id="content">
+<div id="breadcrumb">
+ 
+ 
+ Issue39087
+ 
+</div>
+ 
+ 
+
+
+
+
+
+<div>
+
+<form method="post" name="itemSynopsis"
+      onsubmit="return submit_once()"
+      enctype="multipart/form-data" action="issue39087">
+
+<fieldset><legend>classification</legend>
+<table class="form">
+<tr>
+ <th class="required"><a href="http://docs.python.org/devguide/triaging.html#title" target="_blank">Title</a>:</th>
+ 
+ <td colspan="3">
+  <span>[C API] No efficient C API to get UTF-8 string from unicode object.</span>
+  <input type="hidden" name="title"
+         value="[C API] No efficient C API to get UTF-8 string from unicode object.">
+ </td>
+</tr>
+
+<tr>
+ <th class="required"><a href="http://docs.python.org/devguide/triaging.html#type" target="_blank">Type</a>:</th>
+ <td>enhancement</td>
+ <th><a href="http://docs.python.org/devguide/triaging.html#stage" target="_blank">Stage</a>:</th>
+ <td>patch review</td>
+</tr>
+
+<tr>
+ <th><a href="http://docs.python.org/devguide/triaging.html#components" target="_blank">Components</a>:</th>
+ <td>C API</td>
+ <th><a href="http://docs.python.org/devguide/triaging.html#versions" target="_blank">Versions</a>:</th>
+ <td>Python 3.9</td>
+</tr>
+</table>
+</fieldset>
+
+<fieldset><legend>process</legend>
+<table class="form">
+<tr>
+  <th><a href="http://docs.python.org/devguide/triaging.html#status" target="_blank">Status</a>:</th>
+  <td>open</td>
+  <th><a href="http://docs.python.org/devguide/triaging.html#resolution" target="_blank">Resolution</a>:</th>
+  <td></td>
+</tr>
+
+<tr>
+ <th>
+    <a href="http://docs.python.org/devguide/triaging.html#dependencies"
+       target="_blank">Dependencies</a>:
+ </th>
+ <td>
+  
+  
+ </td>
+ <th><a href="http://docs.python.org/devguide/triaging.html#superseder" target="_blank">Superseder</a>:</th>
+ <td>
+  
+ 
+ </td>
+ </tr>
+ <tr>
+ <th>
+   <a href="http://docs.python.org/devguide/triaging.html#assigned-to"
+      target="_blank">Assigned To</a>:
+ </th>
+ 
+ <td>
+  
+ </td>
+ <th>
+   <a href="http://docs.python.org/devguide/triaging.html#nosy-list"
+      target="_blank">Nosy List</a><!--
+        <span tal:condition="context/nosy_count" tal:replace="python: ' (%d)' % context.nosy_count" /> -->:
+ </th>
+ <td>
+     inada.naoki, serhiy.storchaka, vstinner
+     
+ </td>
+</tr>
+<tr>
+ <th>
+   <a href="http://docs.python.org/devguide/triaging.html#priority"
+      target="_blank">Priority</a>:
+ </th>
+ <td>normal</td>
+ <th>
+    <a href="http://docs.python.org/devguide/triaging.html#keywords"
+       target="_blank">Keywords</a>:
+ </th>
+ <td>patch</td>
+
+
+</tr>
+
+
+
+
+
+
+
+
+
+</table>
+</fieldset>
+
+</form>
+
+<p>Created on <strong>2019-12-18 12:10</strong> by <strong>inada.naoki</strong>, last changed <strong>2019-12-25 07:41</strong> by <strong>inada.naoki</strong>.</p>
+
+
+
+<table class="files">
+ <tr><th class="header" colspan="4">Pull Requests</th></tr>
+ <tr>
+  <th>URL</th>
+  <th>Status</th>
+  <th>Linked</th>
+  <th>Edit</th>
+ </tr>
+ <tr>
+  <td><a href="https://github.com/python/cpython/pull/17659" title="bpo-39087: Add PyUnicode_GetUTF8Buffer().">PR 17659</a></td>
+  <td>open</td>
+  <td>
+   <span>inada.naoki</span>,
+   <span>2019-12-19 12:36</span>
+  </td>
+  <td>
+    
+  </td>
+ </tr>
+ <tr>
+  <td><a href="https://github.com/python/cpython/pull/17683" title="bpo-39087: Make PyUnicode_AsUTF8AndSize faster.">PR 17683</a></td>
+  <td>open</td>
+  <td>
+   <span>inada.naoki</span>,
+   <span>2019-12-23 11:56</span>
+  </td>
+  <td>
+    
+  </td>
+ </tr>
+</table>
+
+
+
+
+
+<table class="messages">
+ <tr><th colspan="4" class="header">Messages (10)</th></tr>
+ 
+  <tr>
+    <th>
+     <a href="#msg358623" id="msg358623">msg358623</a> - <a
+    href="msg358623">(view)</a></th>
+   <th>Author: Inada Naoki (inada.naoki) <span title="Contributor form received">*</span> <img src="@@file/committer.png" title="Python committer" alt="(Python committer)" /></th>
+   <th>Date: 2019-12-18 12:10</th>
+  </tr>
+  <tr>
+   <td colspan="4" class="content">
+    
+    <pre>Assume you are writing an extension module that reads string.  For example, HTML escape or JSON encode.
+
+There are two courses:
+
+(a) Support three KINDs in the flexible unicode representation.
+(b) Get UTF-8 data from the unicode.
+
+(a) will be the fastest on CPython, but there are few drawbacks:
+
+ * This is tightly coupled with CPython implementation.  It will be slow on PyPy.
+ * CPython may change the internal representation to UTF-8 in the future, like PyPy.
+ * You can not easily reuse algorithms written in C that handle `char*`.
+
+So I believe (b) should be the preferred way.
+But CPython doesn't provide an efficient way to get UTF-8 from the unicode object.
+
+ * PyUnicode_AsUTF8AndSize(): When the unicode contains non-ASCII character, it will create a UTF-8 cache.  The cache will be remained for longer than required.  And there is additional malloc + memcpy to create the cache.
+
+ * PyUnicode_DecodeUTF8(): It creates bytes object even when the unicode object is ASCII-only or there is a UTF-8 cache already.
+
+For speed and efficiency, I propose a new API:
+
+```
+  /* Borrow the UTF-8 C string from the unicode.
+   *
+   * Store a pointer to the UTF-8 encoding of the unicode to *utf8* and its size to *size*.
+   * The returned object is the owner of the *utf8*.  You need to Py_DECREF() it after
+   * you finished to using the *utf8*.  The owner may be not the unicode.
+   * Returns NULL when the error occurred while decoding the unicode.
+   */
+  PyObject* PyUnicode_BorrowUTF8(PyObject *unicode, const char **utf8, Py_ssize_t *len);
+```
+
+When the unicode object is ASCII or has UTF-8 cache, this API increment refcnt of the unicode and return it.
+Otherwise, this API calls `_PyUnicode_AsUTF8String(unicode, NULL)` and return it.</pre>
+   </td>
+  </tr>
+ 
+ 
+  <tr>
+    <th>
+     <a href="#msg358662" id="msg358662">msg358662</a> - <a
+    href="msg358662">(view)</a></th>
+   <th>Author: Serhiy Storchaka (serhiy.storchaka) <span title="Contributor form received">*</span> <img src="@@file/committer.png" title="Python committer" alt="(Python committer)" /></th>
+   <th>Date: 2019-12-19 09:43</th>
+  </tr>
+  <tr>
+   <td colspan="4" class="content">
+    
+    <pre>Do you mean some concrete code? Several times I wished similar feature. To get a UTF-8 cache if it exists and encode to UTF-8 without creating a cache otherwise. 
+
+The private _PyUnicode_UTF8() macro could help
+
+if ((s = _PyUnicode_UTF8(str))) {
+    size = _PyUnicode_UTF8_LENGTH(str);
+    tmpbytes = NULL;
+}
+else {
+    tmpbytes = _PyUnicode_AsUTF8String(str, "replace");
+    s = PyBytes_AS_STRING(tmpbytes);
+    size = PyBytes_GET_SIZE(tmpbytes);
+}
+
+but it is not even available outside of unicodeobject.c.
+
+PyUnicode_BorrowUTF8() looks too complex for the public API. I am not sure that it will be easy to implement it in PyPy. It also does not cover all use cases -- sometimes you want to convert to UTF-8 but does not use any memory allocation at all (either use an existing buffer or raise an error if there is no cached UTF-8 or the string is not ASCII).</pre>
+   </td>
+  </tr>
+ 
+ 
+  <tr>
+    <th>
+     <a href="#msg358663" id="msg358663">msg358663</a> - <a
+    href="msg358663">(view)</a></th>
+   <th>Author: STINNER Victor (vstinner) <span title="Contributor form received">*</span> <img src="@@file/committer.png" title="Python committer" alt="(Python committer)" /></th>
+   <th>Date: 2019-12-19 09:46</th>
+  </tr>
+  <tr>
+   <td colspan="4" class="content">
+    
+    <pre>&gt; The returned object is the owner of the *utf8*.  You need to Py_DECREF() it after
+&gt; you finished to using the *utf8*.  The owner may be not the unicode.
+
+Would it be possible to use a "container" object like a Py_buffer? Is there a way to customize the code executed when a Py_buffer is "released"?
+
+Py_buffer would be nice since it already has a pointer attribute (data) and a length attribute, and there is an API to "release" a Py_buffer. It can be marked as read-only, etc.</pre>
+   </td>
+  </tr>
+ 
+ 
+  <tr>
+    <th>
+     <a href="#msg358664" id="msg358664">msg358664</a> - <a
+    href="msg358664">(view)</a></th>
+   <th>Author: Serhiy Storchaka (serhiy.storchaka) <span title="Contributor form received">*</span> <img src="@@file/committer.png" title="Python committer" alt="(Python committer)" /></th>
+   <th>Date: 2019-12-19 10:01</th>
+  </tr>
+  <tr>
+   <td colspan="4" class="content">
+    
+    <pre>&gt; Would it be possible to use a "container" object like a Py_buffer?
+
+Looks like a good idea.
+
+int PyUnicode_GetUTF8Buffer(Py_buffer *view, const char *errors)</pre>
+   </td>
+  </tr>
+ 
+ 
+  <tr>
+    <th>
+     <a href="#msg358665" id="msg358665">msg358665</a> - <a
+    href="msg358665">(view)</a></th>
+   <th>Author: Inada Naoki (inada.naoki) <span title="Contributor form received">*</span> <img src="@@file/committer.png" title="Python committer" alt="(Python committer)" /></th>
+   <th>Date: 2019-12-19 10:04</th>
+  </tr>
+  <tr>
+   <td colspan="4" class="content">
+    
+    <pre>&gt; Would it be possible to use a "container" object like a Py_buffer? Is there a way to customize the code executed when a Py_buffer is "released"?
+
+It looks nice idea!  Py_buffer.obj is decref-ed when releasing the buffer.
+<a href="https://docs.python.org/3/c-api/buffer.html#c.PyBuffer_Release">https://docs.python.org/3/c-api/buffer.html#c.PyBuffer_Release</a>
+
+
+int PyUnicode_GetUTF8Buffer(PyObject *unicode, Py_buffer *view)
+{
+    if (!PyUnicode_Check(unicode)) {
+        PyErr_BadArgument();
+        return NULL;
+    }
+    if (PyUnicode_READY(unicode) == -1) {
+        return NULL;
+    }
+
+    if (PyUnicode_UTF8(unicode) != NULL) {
+        return PyBuffer_FillInfo(view, unicode,
+                                 PyUnicode_UTF8(unicode),
+                                 PyUnicode_UTF8_LENGTH(unicode),
+                                 1, PyBUF_CONTIG_RO);
+    }
+    PyObject *bytes = _PyUnicode_AsUTF8String(unicode, NULL);
+    if (bytes == NULL) {
+        return NULL;
+    }
+    return PyBytesType.tp_as_buffer(bytes, view, PyBUF_CONTIG_RO);
+}</pre>
+   </td>
+  </tr>
+ 
+ 
+  <tr>
+    <th>
+     <a href="#msg358666" id="msg358666">msg358666</a> - <a
+    href="msg358666">(view)</a></th>
+   <th>Author: Inada Naoki (inada.naoki) <span title="Contributor form received">*</span> <img src="@@file/committer.png" title="Python committer" alt="(Python committer)" /></th>
+   <th>Date: 2019-12-19 10:05</th>
+  </tr>
+  <tr>
+   <td colspan="4" class="content">
+    
+    <pre>s/return NULL/return -1/g</pre>
+   </td>
+  </tr>
+ 
+ 
+  <tr>
+    <th>
+     <a href="#msg358670" id="msg358670">msg358670</a> - <a
+    href="msg358670">(view)</a></th>
+   <th>Author: STINNER Victor (vstinner) <span title="Contributor form received">*</span> <img src="@@file/committer.png" title="Python committer" alt="(Python committer)" /></th>
+   <th>Date: 2019-12-19 10:37</th>
+  </tr>
+  <tr>
+   <td colspan="4" class="content">
+    
+    <pre>return PyBytesType.tp_as_buffer(bytes, view, PyBUF_CONTIG_RO);
+
+Don't you need to DECREF bytes somehow, at least, in case of failure?</pre>
+   </td>
+  </tr>
+ 
+ 
+  <tr>
+    <th>
+     <a href="#msg358673" id="msg358673">msg358673</a> - <a
+    href="msg358673">(view)</a></th>
+   <th>Author: Inada Naoki (inada.naoki) <span title="Contributor form received">*</span> <img src="@@file/committer.png" title="Python committer" alt="(Python committer)" /></th>
+   <th>Date: 2019-12-19 11:20</th>
+  </tr>
+  <tr>
+   <td colspan="4" class="content">
+    
+    <pre>&gt; Don't you need to DECREF bytes somehow, at least, in case of failure?
+
+Thanks.  I will create a pull request with suggested changes.</pre>
+   </td>
+  </tr>
+ 
+ 
+  <tr>
+    <th>
+     <a href="#msg358778" id="msg358778">msg358778</a> - <a
+    href="msg358778">(view)</a></th>
+   <th>Author: Serhiy Storchaka (serhiy.storchaka) <span title="Contributor form received">*</span> <img src="@@file/committer.png" title="Python committer" alt="(Python committer)" /></th>
+   <th>Date: 2019-12-21 18:57</th>
+  </tr>
+  <tr>
+   <td colspan="4" class="content">
+    
+    <pre>I like this idea, but I think that we should at least notify Python-Dev about all additions to the public C API. If somebody have objections or better idea, it is better to know earlier.</pre>
+   </td>
+  </tr>
+ 
+ 
+  <tr>
+    <th>
+     <a href="#msg358860" id="msg358860">msg358860</a> - <a
+    href="msg358860">(view)</a></th>
+   <th>Author: Inada Naoki (inada.naoki) <span title="Contributor form received">*</span> <img src="@@file/committer.png" title="Python committer" alt="(Python committer)" /></th>
+   <th>Date: 2019-12-25 07:41</th>
+  </tr>
+  <tr>
+   <td colspan="4" class="content">
+    
+    <pre>&gt; I like this idea, but I think that we should at least notify Python-Dev about all additions to the public C API. If somebody have objections or better idea, it is better to know earlier.
+
+I created a post about this issue in discuss.python.org.
+<a href="https://discuss.python.org/t/better-api-for-encoding-unicode-objects-with-utf-8/2909">https://discuss.python.org/t/better-api-for-encoding-unicode-objects-with-utf-8/2909</a></pre>
+   </td>
+  </tr>
+ 
+</table>
+
+<table class="history table table-condensed table-striped"><tr><th colspan="4" class="header">
+History
+</th></tr><tr>
+<th>Date</th>
+<th>User</th>
+<th>Action</th>
+<th>Args</th>
+</tr>
+<tr><td>2019-12-25&nbsp;07:41:22</td><td>inada.naoki</td><td>set</td><td>messages:
+  + <a rel="nofollow" href="msg358860">msg358860</a></td></tr>
+<tr><td>2019-12-23&nbsp;11:56:16</td><td>inada.naoki</td><td>set</td><td>pull_requests:
+  + <a rel="nofollow" href="pull_request17140">pull_request17140</a></td></tr>
+<tr><td>2019-12-21&nbsp;18:57:08</td><td>serhiy.storchaka</td><td>set</td><td>messages:
+  + <a rel="nofollow" href="msg358778">msg358778</a></td></tr>
+<tr><td>2019-12-19&nbsp;12:36:22</td><td>inada.naoki</td><td>set</td><td>keywords:
+  + <a rel="nofollow" href="keyword2">patch</a><br />stage: patch review<br />pull_requests:
+  + <a rel="nofollow" href="pull_request17127">pull_request17127</a></td></tr>
+<tr><td>2019-12-19&nbsp;11:20:38</td><td>inada.naoki</td><td>set</td><td>messages:
+  + <a rel="nofollow" href="msg358673">msg358673</a></td></tr>
+<tr><td>2019-12-19&nbsp;10:37:20</td><td>vstinner</td><td>set</td><td>messages:
+  + <a rel="nofollow" href="msg358670">msg358670</a></td></tr>
+<tr><td>2019-12-19&nbsp;10:05:12</td><td>inada.naoki</td><td>set</td><td>messages:
+  + <a rel="nofollow" href="msg358666">msg358666</a></td></tr>
+<tr><td>2019-12-19&nbsp;10:04:29</td><td>inada.naoki</td><td>set</td><td>nosy:
+  - <a rel="nofollow" href="user11089">skrah</a><br />messages:
+  + <a rel="nofollow" href="msg358665">msg358665</a><br /></td></tr>
+<tr><td>2019-12-19&nbsp;10:01:31</td><td>serhiy.storchaka</td><td>set</td><td>nosy:
+  + <a rel="nofollow" href="user11089">skrah</a><br />messages:
+  + <a rel="nofollow" href="msg358664">msg358664</a><br /></td></tr>
+<tr><td>2019-12-19&nbsp;09:46:19</td><td>vstinner</td><td>set</td><td>messages:
+  + <a rel="nofollow" href="msg358663">msg358663</a></td></tr>
+<tr><td>2019-12-19&nbsp;09:43:13</td><td>serhiy.storchaka</td><td>set</td><td>nosy:
+  + <a rel="nofollow" href="user15623">serhiy.storchaka</a><br />messages:
+  + <a rel="nofollow" href="msg358662">msg358662</a><br /></td></tr>
+<tr><td>2019-12-18&nbsp;15:32:26</td><td>vstinner</td><td>set</td><td>title: No efficient API to get UTF-8 string from unicode object. -> [C API] No efficient C API to get UTF-8 string from unicode object.</td></tr>
+<tr><td>2019-12-18&nbsp;15:29:27</td><td>vstinner</td><td>set</td><td>nosy:
+  + <a rel="nofollow" href="user2377">vstinner</a><br /></td></tr>
+<tr><td>2019-12-18&nbsp;12:10:15</td><td>inada.naoki</td><td>create</td><td></td></tr>
+</table>
+
+</div>
+
+
+</div> <!-- content-body -->
+<div id="footer">
+<div id="credits">
+  Hosted on <a href="https://m.do.co/c/783434964889" title="Hosted on DigitalOcean">DigitalOcean</a>,
+  <br>
+  Supported by <a href="https://python.org/psf-landing/" title="The Python Software Foundation">The Python Software Foundation</a>,
+  <br>
+  Powered by <a href="http://roundup.sourceforge.net" title="Powered by the Roundup Issue Tracker">Roundup</a>
+</div> <!-- credits -->
+Copyright &copy; 1990-2019, <a href="http://python.org/psf">Python Software Foundation</a><br />
+<a href="http://python.org/about/legal">Legal Statements</a>
+</div> <!-- footer -->
+</div> <!-- body-main -->
+</div> <!-- content -->
+
+
+
+</body>
+</html>
+
